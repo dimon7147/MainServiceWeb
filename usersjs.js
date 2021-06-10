@@ -132,8 +132,8 @@ function displayCreditInfo(data) {
         var payments = data[credit].payments;
         for (let payment in payments) {
             html+='<tr>'
-            html+='<td>' + payments[payment].id + ' | </td>';
-            html+='<td>' + payments[payment].sum + ' | </td>';
+            html+='<td>' + payments[payment].id + '<b>|</b></td>';
+            html+='<td>' + payments[payment].sum + '<b>|</b></td>';
             html+='<td>' + payments[payment].date.day + '/' + payments[payment].date.month + '/' + payments[payment].date.year + '</td>';
             html+='</tr>'
         }
