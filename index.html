@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Веб-интерфейс для главного сервиса</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
+    <script src="https://kit.fontawesome.com/7802583d86.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+    <script type="text/javascript" src="ajax-cross-origin/js/jquery.ajax-cross-origin.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+                <div class="sidebar-header">
+                    <div class="d-flex justify-content-between">
+                        <div class="toggler">
+                            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-menu">
+                    <ul class="menu">
+                        <li class="sidebar-title">Меню</li>
+
+                        <li class="sidebar-item active ">
+                            <a href="index.html" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Главная</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+            <div class="page-heading">
+                <h3>Веб-интерфейс взаимодействия с главным сервисом</h3>
+            </div>
+            <div class="page-content">
+                <section class="row" id="error">
+                </section>
+                <section class="row">
+                    <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Запрос информации о пользовате</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="name">Имя</label>
+                                                    <input type="text" class="form-control" id="name" value="TESTUSER1">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="surname">Фамилия</label>
+                                                    <input type="text" class="form-control" id="surname" value="TESTUSER1">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="patronymic">Отчество</label>
+                                                    <input type="text" class="form-control" id="patronymic" value="Отчество">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="document">Идентификационный документ</label>
+                                                    <input type="text" class="form-control" id="document" value="QWERTY-12">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="secureValue">Контрольное значение</label>
+                                                    <input type="text" class="form-control" id="secureValue" value="77612df7b6981c512deac1064661b777fa6a1aa1524289c14cfcb3f6115ce966">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="documentType">Тип Идентификационного документа</label>
+                                                <select class="form-select" id="documentType">
+                                                    <option value="1">Паспорт</option>
+                                                    <option value="2">ИНН</option>
+                                                    <option value="3" selected>Водительское удостоверение</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="#" class="btn btn-primary" onclick="getInfo();">Запросить информацию</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row" id="userInfoDiv">
+                        <h3>Информация о пользователе</h3>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Пользователь:</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uId">ID</label>
+                                                <input type="text" class="form-control" id="uId" value="" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uIdCredit">ID в сервисе кредитных историй</label>
+                                                <input type="text" class="form-control" id="uIdCredit" value="" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uName">Имя</label>
+                                                <input type="text" class="form-control" id="uName" value="" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uSurname">Фамилия</label>
+                                                <input type="text" class="form-control" id="uSurname" value="" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uPatronymic">Отчество</label>
+                                                <input type="text" class="form-control" id="uPatronymic" value="" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uPassport">Паспорт</label>
+                                                <input type="text" class="form-control" id="uPassport" value="" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uINN">Инн</label>
+                                                <input type="text" class="form-control" id="uINN" value="" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uDriverID">Водительское удостоверение</label>
+                                                <input type="text" class="form-control" id="uDriverID" value="" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uBirthDate">Дата рождения</label>
+                                                <input type="text" class="form-control" id="uBirthDate" value="" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="uSex">Пол</label>
+                                                <input type="text" class="form-control" id="uSex" value="" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Дети:</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Id</th>
+                                                <th scope="col">CreditId</th>
+                                                <th scope="col">Имя</th>
+                                                <th scope="col">Фамилия</th>
+                                                <th scope="col">Отчество</th>
+                                                <th scope="col">Паспорт</th>
+                                                <th scope="col">ИНН</th>
+                                                <th scope="col">Водительское</th>
+                                                <th scope="col">Дата рождения</th>
+                                                <th scope="col">Пол</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="child">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Родители:</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Id</th>
+                                                <th scope="col">CreditId</th>
+                                                <th scope="col">Имя</th>
+                                                <th scope="col">Фамилия</th>
+                                                <th scope="col">Отчество</th>
+                                                <th scope="col">Паспорт</th>
+                                                <th scope="col">ИНН</th>
+                                                <th scope="col">Водительское</th>
+                                                <th scope="col">Дата рождения</th>
+                                                <th scope="col">Пол</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="parent">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Братья и сестры:</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Id</th>
+                                                <th scope="col">CreditId</th>
+                                                <th scope="col">Имя</th>
+                                                <th scope="col">Фамилия</th>
+                                                <th scope="col">Отчество</th>
+                                                <th scope="col">Паспорт</th>
+                                                <th scope="col">ИНН</th>
+                                                <th scope="col">Водительское</th>
+                                                <th scope="col">Дата рождения</th>
+                                                <th scope="col">Пол</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="siblings">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="creditInfoDiv">
+                        <h3>Информация о кредитах</h3>
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Кредиты:</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Id</th>
+                                                <th scope="col">Сумма</th>
+                                                <th scope="col">Банк</th>
+                                                <th scope="col">Первый платеж</th>
+                                                <th scope="col">Последний платеж</th>
+                                                <th scope="col">Платежи (id, сумма, дата)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="credits">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>2021 &copy; Mazer (Используемый шаблон)</p>
+                        <p>Created by <a href="https://github.com/dimon7147" target="_blank">dimon_7147</a></p>
+                    </div>
+                    <div class="float-end">
+                        <a href="https://github.com/dimon7147/MainServiceWeb" target="_blank">Создано в рамках практического задания 3 CMA.<a/>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        </div>
+    </div>
+    <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+    <script src="usersjs.js"></script>
+    <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/vendors/apexcharts/apexcharts.js"></script>
+    <script src="assets/js/pages/dashboard.js"></script>
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
