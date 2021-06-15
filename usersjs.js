@@ -1,9 +1,44 @@
 $(function() {
     hideUserInfo();
     hideCreditInfo();
+    setParamFromURL();
 });
+
+function setParamFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const firstname = urlParams.get('firstname');
+    const surname = urlParams.get('surname');
+    const patronymic = urlParams.get('patronymic');
+    const documentType = urlParams.get('documentType');
+    const secureValue = urlParams.get('secureValue');
+    const documentValue = urlParams.get('documentValue');
+    const isStart = urlParams.get('start');
+    if (firstname != null) {
+        $('#name').val(firstname);
+    }
+    if (surname != null) {
+        $('#surname').val(surname);
+    }
+    if (patronymic != null) {
+        $('#patronymic').val(patronymic);
+    }
+    if (documentType === '1' || documentType === '2' || documentType === '3') {
+        $("#documentType").val(documentType).change();
+    }
+    if (documentValue != null) {
+        $('#document').val(documentValue);
+    }
+    if (secureValue != null) {
+        $('#secureValue').val(secureValue);
+    }
+    if (isStart != null && isStart === '1') {
+        getInfo();
+    }
+}
+
 function getInfo() {
     hideUserInfo();
+    hideCreditInfo();
     let user = {
         firstname: $('#name').val(),
         surname: $('#surname').val(),
@@ -24,7 +59,6 @@ function getInfo() {
         case '2': url+='&taxID='+user.document; break;
         case '3': url+='&driverID='+user.document; break;
     }
-    console.log(url);
     requestData(url);
 }
 
@@ -41,7 +75,6 @@ function requestData(url) {
             displayUserParent(data.userAndRelatives.parents);
             displayUserSiblings(data.userAndRelatives.siblings);
             displayCreditInfo(data.credits);
-            console.log(data);
         },
         error: function(data){
             sendError(data.responseJSON.message);
@@ -63,11 +96,28 @@ function displayUserInfo(data) {
     showUserInfo();
 }
 
+function generateUserLink(firstname, surname, patronymic, passport, driverId, taxPayerID) {
+    var documentType = 1;
+    var documentValue = passport;
+    if (passport != null || passport != '') {
+        documentType = 1;
+        documentValue = passport;
+    } else if (taxPayerID != null || taxPayerID != '') {
+        documentType = 2;
+        documentValue = taxPayerID;
+    } else if (driverId != null || driverId != '') {
+        documentType = 3;
+        documentValue = driverId;
+    }
+    var link = 'http://cma.hillmine.ru/?firstname=' + firstname + '&surname=' + surname + '&patronymic=' + patronymic + '&documentType=' + documentType + '&documentValue=' + documentValue + '&secureValue=' + $('#secureValue').val() + '&start=1';
+    return link;
+}
+
 function displayUserChild(data) {
     var html = '';
     for (let child in data) {
         html+='<tr>';
-        html+='<td>' + data[child].id + '</td>';
+        html+='<td><a href=' + generateUserLink(data[child].firstname, data[child].surname, data[child].patronymic, data[child].passportNumber, data[child].driverLicenceId, data[child].taxPayerID) + '>' + data[child].id + '</a></td>';
         html+='<td>' + data[child].creditServiceId + '</td>';
         html+='<td>' + data[child].firstname + '</td>';
         html+='<td>' + data[child].surname + '</td>';
@@ -85,7 +135,7 @@ function displayUserParent(data) {
     var html = '';
     for (let parent in data) {
         html+='<tr>';
-        html+='<td>' + data[parent].id + '</td>';
+        html+='<td><a href=' + generateUserLink(data[parent].firstname, data[parent].surname, data[parent].patronymic, data[parent].passportNumber, data[parent].driverLicenceId, data[parent].taxPayerID) + '>' + data[parent].id + '</a></td>';
         html+='<td>' + data[parent].creditServiceId + '</td>';
         html+='<td>' + data[parent].firstname + '</td>';
         html+='<td>' + data[parent].surname + '</td>';
@@ -103,7 +153,7 @@ function displayUserSiblings(data) {
     var html = '';
     for (let child in data) {
         html+='<tr>';
-        html+='<td>' + data[child].id + '</td>';
+        html+='<td><a href=' + generateUserLink(data[child].firstname, data[child].surname, data[child].patronymic, data[child].passportNumber, data[child].driverLicenceId, data[child].taxPayerID) + '>' + data[child].id + '</a></td>';
         html+='<td>' + data[child].creditServiceId + '</td>';
         html+='<td>' + data[child].firstname + '</td>';
         html+='<td>' + data[child].surname + '</td>';
